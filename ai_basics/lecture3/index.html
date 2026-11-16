@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3강 · 깃허브 | AI 문맹탈출</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body data-deck="ai-lecture3">
+<div class="deck"><div class="stage">
+
+<!-- 표지 -->
+<section class="slide cover no-num">
+  <div class="bg"></div>
+  <p class="eyebrow">AI 문맹탈출을 위한 기본 도구 익히기 · 3강</p>
+  <h1>깃허브<br>모든 변경을 기억하는 금고</h1>
+  <p class="sub">'진짜_최종.hwp'와 작별하고, 함께 일하는 법</p>
+  <p class="prompt-line">$ git commit -m "3강 시작" <span class="cursor"></span></p>
+</section>
+
+<!-- 아이스 브레이킹 -->
+<section class="slide">
+  <div class="two layout" style="grid-template-columns: 520px 1fr; gap:48px; align-items:center; height:100%">
+    <div class="win">
+      <div class="bar"><i></i><i></i><i></i><span>📁 바탕화면</span></div>
+      <div class="body filelist">
+        <div><span class="ico"></span>기획서.hwp</div>
+        <div><span class="ico"></span>기획서_수정.hwp</div>
+        <div><span class="ico"></span>기획서_최종.hwp</div>
+        <div><span class="ico"></span>기획서_최종_수정2.hwp</div>
+        <div><span class="ico"></span>기획서_진짜최종.hwp</div>
+        <div><span class="ico"></span>기획서_진짜최종_팀장님수정.hwp</div>
+        <div style="border-color:var(--warn)"><span class="ico" style="background:var(--warn)"></span><b>기획서_진짜진짜최종(1).hwp</b></div>
+      </div>
+    </div>
+    <div class="stack" style="gap:24px">
+      <p class="kicker">아이스 브레이킹</p>
+      <p class="big-statement" style="font-size:46px">혹시 여러분의<br>바탕화면 아닌가요? 😅</p>
+      <p class="lead" style="font-size:24px">누구나 한 번쯤 이렇게 파일을 관리해 봤을 거예요. 오늘은 이 문제를 <span class="mark">개발자들이 어떻게 해결했는지</span> 배웁니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 문제점 -->
+<section class="slide">
+  <p class="kicker">이 방식의 문제</p>
+  <h2>'최종' 파일이 늘어날수록 <span class="hl-blue">생기는 일들</span></h2>
+  <div class="cards c2">
+    <div class="card"><span class="emoji">🤔</span><h3>뭐가 진짜 최신이지?</h3><p>'진짜최종'과 '최종_수정2' 중 어느 게 나중 건지 날짜를 뒤져야 해요.</p></div>
+    <div class="card"><span class="emoji">🔍</span><h3>뭘 바꿨더라?</h3><p>두 파일을 나란히 띄워 놓고 <b>틀린 그림 찾기</b>를 해야 해요.</p></div>
+    <div class="card"><span class="emoji">⏪</span><h3>지난주 버전으로 돌아가고 싶은데…</h3><p>저장을 덮어썼다면 <b>영영 사라졌어요</b>.</p></div>
+    <div class="card"><span class="emoji">💥</span><h3>둘이 동시에 고쳤더니</h3><p>메일로 주고받다가 동료가 고친 부분을 <b>내가 덮어써 버렸어요</b>.</p></div>
+  </div>
+</section>
+
+<!-- 버전 관리란 -->
+<section class="slide">
+  <p class="kicker">버전 관리란?</p>
+  <h2>게임의 <span class="hl-blue">세이브 포인트</span>를 떠올려 보세요</h2>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:32px; align-items:stretch">
+    <div class="card">
+      <h3>🎮 게임에서는</h3>
+      <ul class="bullets">
+        <li>보스 앞에서 <b>저장</b>해 둡니다</li>
+        <li>지면 저장한 곳에서 <b>다시 시작</b></li>
+        <li>저장 슬롯마다 <b>이름과 날짜</b>가 있어요</li>
+      </ul>
+    </div>
+    <div class="card" style="border:2px solid var(--red)">
+      <h3>📂 버전 관리에서는</h3>
+      <ul class="bullets">
+        <li>작업이 한 단계 끝날 때마다 <b>기록</b></li>
+        <li>언제든 <b>그 시점으로</b> 되돌아가기</li>
+        <li>기록마다 <b>"무엇을 왜 바꿨는지"</b> 메모</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout"><p style="font-size:22px; line-height:1.6">파일은 <b>하나</b>만 두고, 지난 모습은 전부 기록 속에 들어 있어요. 구글 문서의 <b>'버전 기록'</b>을 써 봤다면 이미 비슷한 걸 경험한 거예요.</p></div>
+</section>
+
+<!-- Git vs GitHub -->
+<section class="slide">
+  <p class="kicker">이름부터 정리</p>
+  <h2><span class="hl-blue">Git</span>과 <span class="hl-blue">GitHub</span>는 다릅니다</h2>
+  <div class="vs">
+    <div class="card" style="align-items:flex-start">
+      <img src="img/git-logo.svg" alt="Git 로고" style="height:56px">
+      <h3>Git (깃)</h3>
+      <p>내 컴퓨터에서 변경을 <b>기록하는 프로그램</b></p>
+      <p class="muted" style="font-size:19px">📷 휴대폰 <b>카메라와 갤러리</b>: 사진을 찍고 내 폰에 보관</p>
+    </div>
+    <div class="mid">+</div>
+    <div class="card" style="align-items:flex-start">
+      <img src="img/github-mark.svg" alt="GitHub 로고" style="height:56px">
+      <h3>GitHub (깃허브)</h3>
+      <p>그 기록을 올려 두는 <b>인터넷 저장소 서비스</b></p>
+      <p class="muted" style="font-size:19px">☁️ <b>구글 포토 · 아이클라우드</b>: 백업하고, 다른 사람과 공유</p>
+    </div>
+  </div>
+  <p class="lead" style="font-size:22px">Git은 혼자서도 쓸 수 있지만, GitHub에 올리면 <b>백업 · 공유 · 협업</b>이 됩니다. 전 세계 개발자 1억 명 이상이 쓰고 있어요.</p>
+  <p class="credit">Git 로고: Jason Long, CC BY 3.0 · GitHub 로고: GitHub, MIT · Wikimedia Commons</p>
+</section>
+
+<!-- 리누스 -->
+<section class="slide">
+  <div class="two layout" style="grid-template-columns: 340px 1fr; gap:52px; align-items:center; height:100%">
+    <figure class="shot">
+      <img src="img/linus.jpg" alt="리누스 토르발스" style="width:340px; height:440px; object-fit:cover">
+      <span class="credit">리누스 토르발스 · Krd, CC BY-SA 4.0 · Wikimedia Commons</span>
+    </figure>
+    <div class="stack" style="gap:20px">
+      <p class="kicker">잠깐 상식</p>
+      <h2 style="font-size:40px">Git을 만든 사람은<br><span class="hl-blue">리누스 토르발스</span></h2>
+      <ul class="bullets">
+        <li>컴퓨터 운영체제 <b>리눅스</b>를 만든 사람이에요.</li>
+        <li>전 세계 수천 명이 함께 고치는 리눅스를 관리하려고 <b>2005년에 Git</b>을 직접 만들었어요.</li>
+        <li>2008년 Git을 쉽게 쓰도록 돕는 <b>GitHub</b>가 생겼고, 2018년 마이크로소프트가 인수했어요.</li>
+      </ul>
+      <div class="callout"><p style="font-size:21px">수천 명이 동시에 고쳐도 꼬이지 않게 만든 도구이니, <b>우리 팀 몇 명</b>쯤은 문제없겠죠?</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Part 1 -->
+<section class="slide section">
+  <div class="bg"></div>
+  <p class="part">Part 1</p>
+  <h2>Git의 핵심 개념 3가지</h2>
+  <p class="sub">저장소 · 커밋 · 브랜치</p>
+</section>
+
+<!-- 저장소 -->
+<section class="slide">
+  <p class="kicker">개념 ① 저장소 (Repository, 레포)</p>
+  <h2>저장소 = <span class="hl-blue">프로젝트 폴더 + 모든 기록</span></h2>
+  <div class="two layout" style="grid-template-columns: 480px 1fr; gap:40px; align-items:center">
+    <div class="win">
+      <div class="bar"><i></i><i></i><i></i><span>📁 내 책 원고 (저장소)</span></div>
+      <div class="body filelist" style="gap:8px">
+        <div>📄 1장.md</div>
+        <div>📄 2장.md</div>
+        <div>📄 README.md</div>
+        <div style="opacity:.65; border-style:dashed">🗄️ .git <span class="muted" style="font-size:17px">← 숨은 기록 보관소</span></div>
+      </div>
+    </div>
+    <div class="stack" style="gap:18px">
+      <ul class="bullets">
+        <li>겉보기엔 평범한 폴더예요.</li>
+        <li>그 안에 숨은 <code>.git</code> 폴더가 <b>모든 세이브 포인트</b>를 보관해요.</li>
+        <li>내 컴퓨터에 있는 건 <b>로컬 저장소</b>, GitHub에 올린 건 <b>원격 저장소</b>라고 불러요.</li>
+      </ul>
+      <div class="callout"><p style="font-size:21px">2강의 옵시디언 보관함도 저장소로 만들 수 있어요. 그러면 <b>내 서재의 모든 변화가 기록</b>됩니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 커밋 -->
+<section class="slide">
+  <p class="kicker">개념 ② 커밋 (Commit)</p>
+  <h2>커밋 = <span class="hl-blue">세이브 포인트 + 한 줄 메모</span></h2>
+  <svg viewBox="0 0 1100 200" style="width:100%; height:200px" role="img" aria-label="커밋 4개가 시간 순서로 이어진 그림">
+    <line x1="80" y1="70" x2="1020" y2="70" stroke="#4f5bd5" stroke-width="6"/>
+    <g font-family="Pretendard Variable, sans-serif" text-anchor="middle">
+      <circle cx="120" cy="70" r="22" fill="#4f5bd5"/><text x="120" y="130" font-size="22" font-weight="700" fill="#1c2233">초안 작성</text><text x="120" y="160" font-size="17" fill="#5b6478">11/3 · a1f2</text>
+      <circle cx="420" cy="70" r="22" fill="#4f5bd5"/><text x="420" y="130" font-size="22" font-weight="700" fill="#1c2233">2장 추가</text><text x="420" y="160" font-size="17" fill="#5b6478">11/5 · 7c3e</text>
+      <circle cx="720" cy="70" r="22" fill="#4f5bd5"/><text x="720" y="130" font-size="22" font-weight="700" fill="#1c2233">오타 수정</text><text x="720" y="160" font-size="17" fill="#5b6478">11/8 · 9d04</text>
+      <circle cx="1000" cy="70" r="26" fill="#ffcf3f" stroke="#1c2233" stroke-width="3"/><text x="1000" y="130" font-size="22" font-weight="700" fill="#1c2233">결말 다듬기</text><text x="1000" y="160" font-size="17" fill="#5b6478">오늘 · 지금</text>
+    </g>
+  </svg>
+  <div class="cards c3">
+    <div class="card"><h3>📸 사진 앨범처럼</h3><p>사진마다 날짜와 설명이 붙듯, 커밋마다 <b>시간 · 작성자 · 메모</b>가 붙어요.</p></div>
+    <div class="card"><h3>⏪ 언제든 되돌리기</h3><p>"11/5 상태로 돌아가 줘" 하면 그 시점의 파일이 그대로 돌아와요.</p></div>
+    <div class="card"><h3>✍️ 메모가 생명</h3><p>"수정함"보다 <b>"2장 결론 문단 추가"</b>처럼 무엇을 했는지 적어요.</p></div>
+  </div>
+</section>
+
+<!-- add commit push -->
+<section class="slide">
+  <p class="kicker">기록이 GitHub에 올라가기까지</p>
+  <h2>택배 보내기와 똑같은 <span class="hl-blue">3단계</span></h2>
+  <div class="cards c3" style="grid-template-columns: 1fr 1fr 1fr">
+    <div class="card"><span class="emoji">📦</span><h3><span class="step">1</span>add · 담기</h3><p>보낼 파일을 <b>상자에 담아요</b>.</p><pre class="code" style="font-size:18px">git add 2장.md</pre></div>
+    <div class="card"><span class="emoji">🏷️</span><h3><span class="step">2</span>commit · 포장</h3><p>상자를 봉하고 <b>송장(메모)</b>을 붙여요. 여기서 세이브 포인트가 생겨요.</p><pre class="code" style="font-size:18px">git commit -m "2장 추가"</pre></div>
+    <div class="card" style="border:2px solid var(--red)"><span class="emoji">🚚</span><h3><span class="step">3</span>push · 발송</h3><p>상자를 <b>GitHub로 보내요</b>. 이제 인터넷에 백업됐어요.</p><pre class="code" style="font-size:18px">git push</pre></div>
+  </div>
+  <div class="callout"><p style="font-size:22px; line-height:1.6">반대로 GitHub에 있는 최신 상자를 <b>받아 오는 것</b>은 <code>pull</code>(당기기)이라고 해요. 다른 컴퓨터에서 이어서 일할 때 씁니다.</p></div>
+</section>
+
+<!-- 브랜치 -->
+<section class="slide">
+  <p class="kicker">개념 ③ 브랜치 (Branch)</p>
+  <h2>브랜치 = 원본은 두고 <span class="hl-blue">갈라져 나온 평행세계</span></h2>
+  <svg viewBox="0 0 1100 230" style="width:100%; height:230px" role="img" aria-label="main 줄기에서 결말B 브랜치가 갈라졌다가 다시 합쳐지는 그림">
+    <g font-family="Pretendard Variable, sans-serif">
+      <path d="M60 80 H1040" stroke="#4f5bd5" stroke-width="6" fill="none"/>
+      <path d="M300 80 C 360 80, 360 175, 420 175 H 700 C 760 175, 760 80, 820 80" stroke="#0b8a7f" stroke-width="6" fill="none"/>
+      <circle cx="120" cy="80" r="18" fill="#4f5bd5"/><circle cx="300" cy="80" r="18" fill="#4f5bd5"/><circle cx="560" cy="80" r="18" fill="#4f5bd5"/>
+      <circle cx="460" cy="175" r="18" fill="#0b8a7f"/><circle cx="640" cy="175" r="18" fill="#0b8a7f"/>
+      <circle cx="820" cy="80" r="24" fill="#ffcf3f" stroke="#1c2233" stroke-width="3"/><circle cx="980" cy="80" r="18" fill="#4f5bd5"/>
+      <text x="60" y="40" font-size="22" font-weight="800" fill="#3a45b8">main (원본 원고)</text>
+      <text x="460" y="222" font-size="22" font-weight="800" fill="#0b6f66" text-anchor="middle">결말B 브랜치 (실험)</text>
+      <text x="460" y="150" font-size="17" fill="#5b6478" text-anchor="middle">결말 새로 쓰기</text>
+      <text x="640" y="150" font-size="17" fill="#5b6478" text-anchor="middle">다듬기</text>
+      <text x="560" y="55" font-size="17" fill="#5b6478" text-anchor="middle">1장 오타 수정</text>
+      <text x="820" y="40" font-size="20" font-weight="800" fill="#1c2233" text-anchor="middle">합치기(merge)</text>
+    </g>
+  </svg>
+  <div class="cards c3">
+    <div class="card"><h3>🌿 갈라지기</h3><p>원고를 복사해 <b>"결말 B안"</b>을 따로 써 봐요. 원본은 안전해요.</p></div>
+    <div class="card"><h3>🤝 합치기</h3><p>B안이 마음에 들면 원본에 <b>합쳐요(merge)</b>.</p></div>
+    <div class="card"><h3>🗑️ 버리기</h3><p>별로면 브랜치만 지우면 끝. <b>원본엔 흔적도 없어요</b>.</p></div>
+  </div>
+</section>
+
+<!-- 협업 -->
+<section class="slide">
+  <p class="kicker">여럿이 함께 일하기</p>
+  <h2>공동 저자의 책을 만드는 과정과 같아요</h2>
+  <div class="rows">
+    <div class="row"><span class="num">1</span><div><b>각자 브랜치에서 작업</b><span>민수는 <code>3장</code> 브랜치, 지영은 <code>표지문구</code> 브랜치에서 동시에 일해요. 서로 방해하지 않아요.</span></div></div>
+    <div class="row"><span class="num">2</span><div><b>풀 리퀘스트(Pull Request)로 "합쳐 주세요" 요청</b><span>"3장 다 썼어요, 원고에 넣어 주세요" 하고 GitHub에 올려요. 무엇이 바뀌었는지 자동으로 비교해서 보여 줘요.</span></div></div>
+    <div class="row"><span class="num">3</span><div><b>리뷰</b><span>편집자(팀장)가 바뀐 부분을 읽고 댓글을 달아요. "이 문장은 빼면 어떨까요?"</span></div></div>
+    <div class="row"><span class="num">4</span><div><b>합치기</b><span>승인되면 main에 합쳐져요. 누가 언제 무엇을 넣었는지 <b>모두 기록</b>에 남아요.</span></div></div>
+  </div>
+</section>
+
+<!-- 충돌 -->
+<section class="slide">
+  <p class="kicker">충돌 (Conflict)</p>
+  <h2>둘이 <span class="hl-blue">같은 문장</span>을 다르게 고치면?</h2>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:32px; align-items:center">
+    <pre class="code" style="font-size:19px"><span class="k">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> 민수
+그날 밤, 그는 <b>바다로</b> 떠났다.
+<span class="k">=======</span>
+그날 밤, 그는 <b>산으로</b> 떠났다.
+<span class="k">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> 지영</pre>
+    <div class="stack" style="gap:16px">
+      <p class="lead" style="font-size:23px">Git은 멋대로 고르지 않고 <b>"어느 쪽으로 할까요?"</b>라고 물어요.</p>
+      <ul class="bullets">
+        <li>둘 중 하나를 고르거나</li>
+        <li>둘을 섞어 새로 쓰면 해결</li>
+      </ul>
+      <div class="callout"><p style="font-size:21px">메일로 파일을 주고받을 때는 <b>조용히 덮어써서</b> 사라졌던 일을, Git은 꼭 알려 줍니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 기본 명령어 -->
+<section class="slide" style="gap:16px">
+  <p class="kicker">기본 명령어</p>
+  <h2>이 정도만 알면 <span class="hl-blue">충분합니다</span></h2>
+  <table class="tbl compact">
+    <tr><th style="width:34%">명령어</th><th>뜻</th></tr>
+    <tr><td><code>git init</code></td><td>이 폴더를 저장소로 만들기 (처음 한 번)</td></tr>
+    <tr><td><code>git clone 주소</code></td><td>GitHub의 저장소를 내 컴퓨터로 복사해 오기</td></tr>
+    <tr><td><code>git status</code></td><td>지금 바뀐 파일이 뭐가 있는지 보기</td></tr>
+    <tr class="em"><td><code>git add 파일</code></td><td>기록할 파일 담기 (모두: <code>git add .</code>)</td></tr>
+    <tr class="em"><td><code>git commit -m "메모"</code></td><td>세이브 포인트 만들기</td></tr>
+    <tr class="em"><td><code>git push</code> / <code>git pull</code></td><td>GitHub로 보내기 / GitHub에서 받아 오기</td></tr>
+    <tr><td><code>git log</code></td><td>지금까지의 기록 보기</td></tr>
+    <tr><td><code>git switch -c 이름</code></td><td>새 브랜치를 만들고 그리로 이동</td></tr>
+    <tr><td><code>git merge 이름</code></td><td>그 브랜치를 지금 브랜치에 합치기</td></tr>
+  </table>
+</section>
+
+<!-- 터미널 예시 -->
+<section class="slide">
+  <p class="kicker">실제로는 이렇게</p>
+  <div class="term" style="flex:1">
+    <div class="bar"><i></i><i></i><i></i><span>~/내 책 원고</span></div>
+    <pre style="font-size:20px"><span class="p">$</span> <span class="cmd">git status</span>
+<span class="o">수정됨: 2장.md</span>                     <span class="c"># 2장이 바뀌었네</span>
+
+<span class="p">$</span> <span class="cmd">git add 2장.md</span>                    <span class="c"># 상자에 담고</span>
+<span class="p">$</span> <span class="cmd">git commit -m "2장 마지막 문단 추가"</span>  <span class="c"># 송장 붙여 포장</span>
+<span class="o">[main 7c3e1a2] 2장 마지막 문단 추가
+ 1 file changed, 12 insertions(+)</span>
+
+<span class="p">$</span> <span class="cmd">git push</span>                          <span class="c"># GitHub로 발송</span>
+<span class="o">To github.com:jay/my-book.git
+   a1f2b3c..7c3e1a2  main -&gt; main</span></pre>
+  </div>
+  <p class="muted" style="font-size:19px">실제 화면은 영어로 나오지만, 흐름은 이것과 똑같아요.</p>
+</section>
+
+<!-- AI에게 물어보기 -->
+<section class="slide">
+  <p class="kicker">외울 필요 없어요</p>
+  <h2>더 자세한 건 <span class="hl-blue">AI에게 물어보면</span> 아주 잘 알려 줍니다</h2>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:32px; align-items:start">
+    <div class="chat">
+      <div class="me">방금 커밋했는데 메모에 오타가 있어. 고칠 수 있어?</div>
+      <div class="bot">네! 아직 push 전이라면 <code>git commit --amend</code>로 고칠 수 있어요. 제가 해 드릴까요?</div>
+      <div class="me">어제 상태로 돌아가고 싶어</div>
+      <div class="bot">어제 커밋은 <code>7c3e</code>예요. 지금 작업은 남겨 두고 확인만 할까요, 아예 되돌릴까요?</div>
+    </div>
+    <div class="stack" style="gap:16px">
+      <div class="card"><h3>💡 요즘은 이렇게도 해요</h3><p>1강의 터미널 AI에게 <b>"커밋하고 푸시해줘"</b>라고만 말하면, 바뀐 내용을 보고 메모까지 써서 올려 줘요.</p></div>
+      <div class="callout"><p style="font-size:21px">사람은 개념을 이해하고 <b>무엇을 기록할지</b> 판단하면 됩니다. 명령어는 AI가 압니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Part 2 -->
+<section class="slide section">
+  <div class="bg"></div>
+  <p class="part">Part 2</p>
+  <h2>GitHub 시작하기</h2>
+  <p class="sub">저장소 만들기 · 관리하기 · README 쓰기</p>
+</section>
+
+<!-- 저장소 만들기 -->
+<section class="slide">
+  <p class="kicker">저장소 만들기</p>
+  <h2>GitHub에서 <span class="hl-blue">5단계</span>면 끝</h2>
+  <div class="two layout" style="grid-template-columns: 1fr 470px; gap:36px; align-items:start">
+    <div class="rows tight">
+      <div class="row"><span class="num">1</span><div><b>가입하기</b><span><code>github.com</code> 에서 무료 가입 (이메일만 있으면 OK)</span></div></div>
+      <div class="row"><span class="num">2</span><div><b>New 누르기</b><span>오른쪽 위 <b>+</b> → <b>New repository</b></span></div></div>
+      <div class="row"><span class="num">3</span><div><b>이름 짓기</b><span>영어 소문자와 <code>-</code>로. 예: <code>my-reading-notes</code></span></div></div>
+      <div class="row"><span class="num">4</span><div><b>공개 범위 고르기</b><span><b>Public</b>(누구나 보기) 또는 <b>Private</b>(나만 보기)</span></div></div>
+      <div class="row"><span class="num">5</span><div><b>README 추가 체크 → Create</b><span>첫 파일과 함께 저장소가 만들어져요</span></div></div>
+    </div>
+    <div class="win">
+      <div class="bar"><i></i><i></i><i></i><span>Create a new repository</span></div>
+      <div class="body" style="display:flex; flex-direction:column; gap:12px; font-size:18px">
+        <div><b>Repository name</b><div style="border:1px solid var(--line); border-radius:8px; padding:6px 10px; margin-top:4px; font-family:var(--mono)">my-reading-notes</div></div>
+        <div><b>Description</b><div style="border:1px solid var(--line); border-radius:8px; padding:6px 10px; margin-top:4px">나의 독서 기록 모음</div></div>
+        <div>◉ <b>Public</b> &nbsp; ○ Private</div>
+        <div>☑ Add a README file</div>
+        <div style="align-self:flex-start; background:#1f883d; color:#fff; font-weight:700; border-radius:8px; padding:8px 16px">Create repository</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 저장소 화면 -->
+<section class="slide" style="padding-top:48px; gap:16px">
+  <p class="kicker">저장소 화면 읽기 · 이 강의 자료의 실제 저장소</p>
+  <div class="pins">
+    <img src="img/github-repo-main.png" alt="jays-lectures 저장소의 GitHub 화면">
+    <span class="pin" style="left:0.6%; top:27.3%">1</span>
+    <span class="pin" style="left:0.6%; top:74.4%">2</span>
+    <span class="pin" style="left:63.2%; top:74.4%">3</span>
+    <span class="pin" style="left:74.6%; top:44%">4</span>
+    <span class="pin" style="left:75.1%; top:27.3%">5</span>
+  </div>
+  <span class="credit">github.com/jay-nuclear-phd/jays-lectures 화면 캡처 (2026년 11월)</span>
+  <div class="legend" style="display:grid; grid-template-columns:repeat(5,1fr); gap:14px">
+    <div><span class="pin">1</span><span><b>브랜치</b>지금 보는 줄기(main)</span></div>
+    <div><span class="pin">2</span><span><b>파일 목록</b>저장소 안의 파일·폴더</span></div>
+    <div><span class="pin">3</span><span><b>커밋 메모</b>파일이 마지막으로 바뀐 이유</span></div>
+    <div><span class="pin">4</span><span><b>커밋 수</b>누르면 전체 기록</span></div>
+    <div><span class="pin">5</span><span><b>Code 버튼</b>내 컴퓨터로 복사할 주소</span></div>
+  </div>
+</section>
+
+<!-- 관리 -->
+<section class="slide">
+  <p class="kicker">저장소 관리 기본기</p>
+  <h2>처음부터 알아 두면 좋은 <span class="hl-blue">5가지</span></h2>
+  <div class="cards c3" style="grid-template-columns: repeat(3, 1fr); gap:14px">
+    <div class="card"><h3>🔓 Public / 🔒 Private</h3><p style="font-size:19px">개인 메모, 원고는 Private으로. 나중에 언제든 바꿀 수 있어요.</p></div>
+    <div class="card"><h3>🙈 .gitignore</h3><p style="font-size:19px">올리면 안 되는 파일 목록. <b>비밀번호, 개인정보</b>는 여기 적어서 제외!</p></div>
+    <div class="card"><h3>✍️ 좋은 커밋 메모</h3><p style="font-size:19px">"수정" ❌ <br>"3장 도입부 사례 교체" ✅</p></div>
+    <div class="card"><h3>📌 Issues</h3><p style="font-size:19px">할 일·아이디어·버그를 적어 두는 게시판. 팀 할 일 목록으로 써요.</p></div>
+    <div class="card"><h3>🌐 GitHub Pages</h3><p style="font-size:19px">저장소를 <b>무료 웹사이트</b>로 공개. 지금 이 강의 자료도 이렇게 올렸어요!</p></div>
+    <div class="card"><h3>🖱️ 터미널이 어렵다면</h3><p style="font-size:19px"><b>GitHub Desktop</b> 앱으로 버튼 클릭만으로도 쓸 수 있어요.</p></div>
+  </div>
+</section>
+
+<!-- README -->
+<section class="slide">
+  <p class="kicker">README.md</p>
+  <h2>README는 저장소의 <span class="hl-blue">표지이자 사용 설명서</span></h2>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:32px; align-items:stretch">
+    <div class="card">
+      <h3>📖 책으로 치면</h3>
+      <ul class="bullets">
+        <li>표지와 책날개의 <b>소개글</b></li>
+        <li>"이 책을 읽는 법" 같은 <b>머리말</b></li>
+        <li>가전제품의 <b>사용 설명서</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>✅ 특징</h3>
+      <ul class="bullets">
+        <li>저장소에 들어오면 <b>파일 목록 아래에 자동으로</b> 보여요</li>
+        <li><b>마크다운</b>으로 써요 (2강 복습!)</li>
+        <li>사람도 읽고, <b>AI도 가장 먼저</b> 읽어요</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout"><p style="font-size:22px; line-height:1.6">처음 온 사람이 README 하나만 읽고 <span class="mark">"이게 뭐고, 어떻게 쓰는지"</span> 알 수 있으면 잘 쓴 거예요.</p></div>
+</section>
+
+<!-- README 예시 -->
+<section class="slide" style="padding-top:52px">
+  <p class="kicker">README 예시</p>
+  <div class="md-pair" style="grid-template-columns: 1fr 64px 1fr">
+    <div>
+      <span class="lbl2">README.md (원문)</span>
+      <pre class="code" style="font-size:17px"><span class="k">#</span> 📚 나의 독서 기록
+2026년부터 읽은 책을 정리하는 저장소입니다.
+
+<span class="k">##</span> 무엇이 들어 있나요
+<span class="k">-</span> <span class="k">`</span>독서노트/<span class="k">`</span>: 책 한 권당 노트 하나
+<span class="k">-</span> <span class="k">`</span>서평/<span class="k">`</span>: 블로그에 올린 서평
+
+<span class="k">##</span> 노트 쓰는 법
+<span class="k">1.</span> <span class="k">`</span>템플릿.md<span class="k">`</span>를 복사한다
+<span class="k">2.</span> 파일 이름은 <span class="k">`</span>책제목.md<span class="k">`</span>
+
+<span class="k">##</span> 만든 사람
+배누사 · 매일 읽고 쓰는 사람</pre>
+    </div>
+    <div class="mid">→</div>
+    <div>
+      <span class="lbl2">GitHub에서 보이는 모습</span>
+      <div class="md-view" style="font-size:18px">
+        <h1 style="font-size:28px">📚 나의 독서 기록</h1>
+        <p>2026년부터 읽은 책을 정리하는 저장소입니다.</p>
+        <h2 style="font-size:22px">무엇이 들어 있나요</h2>
+        <ul><li><code>독서노트/</code>: 책 한 권당 노트 하나</li><li><code>서평/</code>: 블로그에 올린 서평</li></ul>
+        <h2 style="font-size:22px">노트 쓰는 법</h2>
+        <ol><li><code>템플릿.md</code>를 복사한다</li><li>파일 이름은 <code>책제목.md</code></li></ol>
+        <h2 style="font-size:22px">만든 사람</h2>
+        <p>배누사 · 매일 읽고 쓰는 사람</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- README 구성 -->
+<section class="slide">
+  <p class="kicker">README에 무엇을 쓸까</p>
+  <h2>이 순서대로 채우면 <span class="hl-blue">기본은 합니다</span></h2>
+  <div class="rows tight">
+    <div class="row"><span class="num">1</span><div><b>이름과 한 줄 소개</b><span>이 저장소가 무엇인지 한 문장으로</span></div></div>
+    <div class="row"><span class="num">2</span><div><b>무엇을 하나 / 왜 만들었나</b><span>해결하려는 문제, 주요 기능</span></div></div>
+    <div class="row"><span class="num">3</span><div><b>사용법 · 설치법</b><span>처음 온 사람이 따라 할 수 있게 단계별로</span></div></div>
+    <div class="row"><span class="num">4</span><div><b>폴더 구조 · 스크린샷</b><span>어디에 무엇이 있는지, 완성된 모습</span></div></div>
+    <div class="row"><span class="num">5</span><div><b>계획서(PRD) · 만든 사람 · 라이선스</b><span>앞으로의 계획, 연락처, 가져다 써도 되는지</span></div></div>
+  </div>
+</section>
+
+<!-- PRD -->
+<section class="slide">
+  <p class="kicker">PRD란?</p>
+  <h2>PRD = <span class="hl-blue">P</span>roduct <span class="hl-blue">R</span>equirements <span class="hl-blue">D</span>ocument · <span style="font-size:34px">만들 것의 설계도</span></h2>
+  <div class="vs">
+    <div class="card">
+      <h3>🏠 집을 지을 때</h3>
+      <p>설계도 없이 "대충 방 세 개" 하면 짓다가 계속 뜯어고쳐요.</p>
+    </div>
+    <div class="mid">=</div>
+    <div class="card" style="border:2px solid var(--red)">
+      <h3>🤖 AI에게 맡길 때</h3>
+      <p>PRD를 주면 AI가 <b>처음부터 원하는 방향으로</b> 만들어요. README나 별도 <code>PRD.md</code>에 적어 둡니다.</p>
+    </div>
+  </div>
+  <table class="tbl small">
+    <tr><th style="width:28%">항목</th><th>질문</th></tr>
+    <tr><td><b>배경 · 문제</b></td><td>왜 만드나? 지금 무엇이 불편한가?</td></tr>
+    <tr><td><b>사용자 · 목표</b></td><td>누가 쓰나? 무엇이 되면 성공인가?</td></tr>
+    <tr><td><b>핵심 기능</b></td><td>꼭 있어야 하는 기능 3~5개</td></tr>
+    <tr><td><b>하지 않을 것</b></td><td>이번엔 만들지 않을 것 (범위 정하기)</td></tr>
+  </table>
+</section>
+
+<!-- PRD 예시 -->
+<section class="slide" style="padding-top:52px">
+  <p class="kicker">PRD 예시 · 독서노트 웹페이지</p>
+  <div class="two layout" style="grid-template-columns: 1fr 380px; gap:32px; align-items:stretch">
+    <pre class="code" style="font-size:17px"><span class="k">#</span> PRD: 독서노트 웹페이지
+
+<span class="k">##</span> 배경
+옵시디언에 쓴 독서노트를 독서모임 사람들과
+나누고 싶은데, 파일을 일일이 보내기 번거롭다.
+
+<span class="k">##</span> 사용자와 목표
+<span class="k">-</span> 독서모임 회원 12명이 휴대폰으로 본다
+<span class="k">-</span> 새 노트를 올리면 <span class="k">**</span>5분 안에<span class="k">**</span> 사이트에 반영
+
+<span class="k">##</span> 핵심 기능
+<span class="k">1.</span> 책 목록 (표지, 별점, 읽은 날)
+<span class="k">2.</span> 책을 누르면 독서노트 전체 보기
+<span class="k">3.</span> 태그별 모아 보기
+
+<span class="k">##</span> 하지 않을 것
+<span class="k">-</span> 회원 가입, 댓글 기능</pre>
+    <div class="stack" style="gap:16px">
+      <div class="card"><h3>그다음은?</h3><p style="font-size:20px">터미널 AI에게 <b>"PRD.md 대로 만들어줘"</b></p></div>
+      <div class="card"><p style="font-size:20px">AI가 만들고 → 내가 확인하고 → <b>커밋</b>으로 기록 → <b>GitHub Pages</b>로 공개</p></div>
+      <div class="callout"><p style="font-size:19px">코드를 한 줄도 몰라도 <span class="mark">무엇을 원하는지 글로 정확히 쓰는 능력</span>이 있으면 됩니다. 작가에게 유리한 시대예요.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 세 강의 정리 -->
+<section class="slide">
+  <p class="kicker">3강 전체 정리</p>
+  <h2>AI와 함께 일하는 <span class="hl-blue">작업실</span>이 완성됐습니다</h2>
+  <div class="cards c3">
+    <div class="card"><span class="chip">1강</span><h3>⌨️ 터미널</h3><p><b>작업대</b>. AI가 내 컴퓨터에서 직접 일하는 곳</p></div>
+    <div class="card"><span class="chip">2강</span><h3>📝 마크다운 · 옵시디언</h3><p><b>공용어와 서재</b>. 사람과 AI가 함께 읽고 쓰는 글</p></div>
+    <div class="card"><span class="chip">3강</span><h3>🗄️ 깃허브</h3><p><b>금고와 회의실</b>. 모든 변경을 기록하고 함께 일하기</p></div>
+  </div>
+  <div class="term">
+    <pre style="font-size:19px"><span class="c"># 앞으로의 작업 흐름</span>
+<span class="y">PRD.md 쓰기</span>  →  <span class="y">터미널에서 AI에게 맡기기</span>  →  <span class="y">결과 확인</span>  →  <span class="y">커밋 · 푸시</span>  →  <span class="y">공유</span></pre>
+  </div>
+</section>
+
+<!-- 용어 정리 -->
+<section class="slide">
+  <p class="kicker">용어 정리</p>
+  <table class="tbl compact">
+    <tr><th style="width:26%">용어</th><th>한 줄 뜻</th></tr>
+    <tr><td><b>Git / GitHub</b></td><td>변경 기록 프로그램 / 그 기록을 올려 두는 인터넷 서비스</td></tr>
+    <tr><td><b>저장소(레포)</b></td><td>프로젝트 폴더 + 모든 변경 기록</td></tr>
+    <tr><td><b>커밋</b></td><td>메모가 붙은 세이브 포인트</td></tr>
+    <tr><td><b>push / pull</b></td><td>GitHub로 보내기 / GitHub에서 받아 오기</td></tr>
+    <tr><td><b>브랜치 / merge</b></td><td>갈라져 나온 작업 줄기 / 그것을 다시 합치기</td></tr>
+    <tr><td><b>풀 리퀘스트</b></td><td>"내 변경을 합쳐 주세요"라는 요청과 리뷰 공간</td></tr>
+    <tr><td><b>README.md</b></td><td>저장소의 소개글이자 사용 설명서</td></tr>
+    <tr><td><b>PRD</b></td><td>무엇을 왜 누구를 위해 만드는지 적은 설계도</td></tr>
+  </table>
+</section>
+
+<!-- 과제 -->
+<section class="slide">
+  <p class="kicker">이번 주 해 볼 것</p>
+  <h2>나의 <span class="hl-blue">첫 저장소</span> 만들기</h2>
+  <div class="rows">
+    <div class="row"><span class="num">1</span><div><b>GitHub 가입하기</b><span><code>github.com</code> · 아이디는 영어로, 오래 쓸 이름으로</span></div></div>
+    <div class="row"><span class="num">2</span><div><b>Private 저장소 만들고 README 쓰기</b><span>이름, 한 줄 소개, 무엇을 담을지를 마크다운으로</span></div></div>
+    <div class="row"><span class="num">3</span><div><b>내가 만들고 싶은 것의 PRD 써 보기</b><span>배경 · 사용자 · 핵심 기능 3개 · 하지 않을 것</span></div></div>
+    <div class="row"><span class="num">4</span><div><b>(도전) 터미널 AI에게 맡기기</b><span>옵시디언 보관함 폴더에서 "이 폴더를 깃 저장소로 만들고 GitHub의 내 저장소에 올려줘"</span></div></div>
+  </div>
+</section>
+
+<!-- 출처 -->
+<section class="slide">
+  <p class="kicker">이미지 출처</p>
+  <ul class="bullets" style="font-size:17px; gap:6px">
+    <li>Git 로고: Jason Long, CC BY 3.0, Wikimedia Commons</li>
+    <li>GitHub 로고(Octicons mark-github): GitHub, MIT 라이선스, Wikimedia Commons</li>
+    <li>리누스 토르발스 사진: Krd (사진), Von Sprat (자르기), CC BY-SA 4.0, Wikimedia Commons</li>
+    <li>GitHub 저장소 화면: github.com/jay-nuclear-phd/jays-lectures 캡처 (2026년 11월)</li>
+    <li>커밋·브랜치 그림, 파일 목록, 터미널·대화 화면은 설명을 위해 직접 만든 예시입니다.</li>
+  </ul>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>
