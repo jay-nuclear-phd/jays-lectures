@@ -308,7 +308,7 @@
   <div class="bg"></div>
   <p class="part">Part 2</p>
   <h2>GitHub 시작하기</h2>
-  <p class="sub">저장소 만들기 · 관리하기 · README 쓰기</p>
+  <p class="sub">저장소 만들기 · 관리하기 · 웹사이트로 공개 · README 쓰기</p>
 </section>
 
 <!-- 저장소 만들기 -->
@@ -366,9 +366,57 @@
     <div class="card"><h3>🙈 .gitignore</h3><p style="font-size:19px">올리면 안 되는 파일 목록. <b>비밀번호, 개인정보</b>는 여기 적어서 제외!</p></div>
     <div class="card"><h3>✍️ 좋은 커밋 메모</h3><p style="font-size:19px">"수정" ❌ <br>"3장 도입부 사례 교체" ✅</p></div>
     <div class="card"><h3>📌 Issues</h3><p style="font-size:19px">할 일·아이디어·버그를 적어 두는 게시판. 팀 할 일 목록으로 써요.</p></div>
-    <div class="card"><h3>🌐 GitHub Pages</h3><p style="font-size:19px">저장소를 <b>무료 웹사이트</b>로 공개. 지금 이 강의 자료도 이렇게 올렸어요!</p></div>
+    <div class="card"><h3>🌐 GitHub Pages</h3><p style="font-size:19px">저장소를 <b>무료 웹사이트</b>로 공개. 바로 다음 장에서 자세히!</p></div>
     <div class="card"><h3>🖱️ 터미널이 어렵다면</h3><p style="font-size:19px"><b>GitHub Desktop</b> 앱으로 버튼 클릭만으로도 쓸 수 있어요.</p></div>
   </div>
+</section>
+
+<!-- GitHub Pages 소개 -->
+<section class="slide">
+  <p class="kicker">GitHub Pages</p>
+  <h2>저장소를 그대로 <span class="hl-blue">무료 웹사이트</span>로</h2>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:32px; align-items:stretch">
+    <div class="card">
+      <h3>🌐 무엇인가요?</h3>
+      <ul class="bullets" style="font-size:21px">
+        <li>저장소에 있는 웹페이지 파일(<code>index.html</code>)을 <b>인터넷 주소로 공개</b>해 주는 GitHub의 무료 기능</li>
+        <li>서버를 빌리거나 돈을 낼 필요가 없어요</li>
+        <li>커밋·푸시하면 <b>1~2분 뒤 자동 반영</b></li>
+      </ul>
+    </div>
+    <div class="card" style="border:2px solid var(--red)">
+      <h3>🔗 주소는 이렇게 생겨요</h3>
+      <pre class="code" style="font-size:19px">https://<span class="k">아이디</span>.github.io/<span class="k">저장소이름</span>/</pre>
+      <p style="font-size:20px">예: 지금 보고 있는 이 강의 자료도 GitHub Pages로 열었어요.</p>
+      <pre class="code" style="font-size:16px">jay-nuclear-phd.github.io/jays-lectures/</pre>
+    </div>
+  </div>
+  <div class="callout"><p style="font-size:21px">작가 홈페이지, 포트폴리오, 독서 모임 안내 페이지처럼 <b>글과 그림 위주의 사이트</b>에 딱 맞아요. 4강에서 직접 만들어 봅니다.</p></div>
+</section>
+
+<!-- GitHub Pages 켜는 법 -->
+<section class="slide">
+  <p class="kicker">GitHub Pages 켜는 법</p>
+  <div class="two layout" style="grid-template-columns: 1fr 500px; gap:36px; align-items:center; height:100%">
+    <div class="stack" style="gap:14px">
+      <h2 style="font-size:40px">설정에서 <span class="hl-blue">네 번</span> 누르면 끝</h2>
+      <div class="rows tight">
+        <div class="row"><span class="num">1</span><div><b>저장소의 Settings(설정) 탭</b><span>저장소 화면 위쪽 메뉴 맨 오른쪽</span></div></div>
+        <div class="row"><span class="num">2</span><div><b>왼쪽 메뉴에서 Pages</b><span>Code and automation 묶음 안에 있어요</span></div></div>
+        <div class="row"><span class="num">3</span><div><b>Branch: main · 폴더: / (root)</b><span>"main 브랜치의 맨 위 폴더를 공개해 줘"라는 뜻</span></div></div>
+        <div class="row"><span class="num">4</span><div><b>Save → 1~2분 기다리기</b><span>위쪽에 "Your site is live at …" 주소가 나타나요</span></div></div>
+      </div>
+    </div>
+    <div class="win">
+      <div class="bar"><i></i><i></i><i></i><span>Settings › Pages</span></div>
+      <div class="body" style="display:flex; flex-direction:column; gap:14px; font-size:18px">
+        <div style="background:#dafbe1; border:1px solid #4ac26b; border-radius:8px; padding:8px 12px; font-size:16px">✅ Your site is live at <b style="font-family:var(--mono)">아이디.github.io/author-site</b></div>
+        <div><b>Source</b><div style="border:1px solid var(--line); border-radius:8px; padding:6px 10px; margin-top:4px">Deploy from a branch ▾</div></div>
+        <div><b>Branch</b><div style="display:flex; gap:8px; margin-top:4px"><span style="border:1px solid var(--line); border-radius:8px; padding:6px 10px">🌿 main ▾</span><span style="border:1px solid var(--line); border-radius:8px; padding:6px 10px">📁 / (root) ▾</span><span style="background:#f3f4f8; border:1px solid var(--line); border-radius:8px; padding:6px 12px; font-weight:700">Save</span></div></div>
+      </div>
+    </div>
+  </div>
+  <p class="muted" style="font-size:18px">⚠️ 무료 계정은 <b>Public 저장소</b>만 Pages를 쓸 수 있어요. 공개되면 누구나 볼 수 있으니 비밀번호·개인정보는 올리지 마세요. 터미널 AI에게 "GitHub Pages 켜 줘"라고 해도 됩니다.</p>
 </section>
 
 <!-- README -->

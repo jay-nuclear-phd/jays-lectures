@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4강 · 실습: 작가 홈페이지 만들기 | AI 문맹탈출</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../assets/deck.css">
+</head>
+<body data-deck="ai-lecture4">
+<div class="deck"><div class="stage">
+
+<!-- 표지 -->
+<section class="slide cover no-num">
+  <div class="bg"></div>
+  <p class="eyebrow">AI 문맹탈출을 위한 기본 도구 익히기 · 4강 실습</p>
+  <h1>작가 홈페이지 만들기<br>원고에서 웹사이트까지</h1>
+  <p class="sub">마크다운으로 쓰고, 깃허브에 담고, AI에게 맡겨서 세상에 공개하기</p>
+  <p class="prompt-line">&gt; 나는 작가인데, 내 웹사이트를 만들고 싶어 <span class="cursor"></span></p>
+</section>
+
+<!-- 오늘 만들 것 -->
+<section class="slide" style="padding-top:52px">
+  <p class="kicker">오늘 만들 것</p>
+  <div class="two layout" style="grid-template-columns: 720px 1fr; gap:36px; align-items:center">
+    <div class="shot-frame">
+      <div class="addr">🔒 <span>내아이디.github.io/author-site</span></div>
+      <img src="img/site-home.jpg" alt="완성된 작가 홈페이지 첫 화면">
+    </div>
+    <div class="stack" style="gap:18px">
+      <h2 style="font-size:38px">코드 한 줄 몰라도<br><span class="hl-blue">내 이름의 홈페이지</span></h2>
+      <ul class="bullets" style="font-size:21px">
+        <li>작가 소개와 책 목록</li>
+        <li>책 전문을 읽는 페이지</li>
+        <li>꼭지마다 어울리는 그림</li>
+        <li>휴대폰에서도 깔끔하게</li>
+      </ul>
+      <div class="callout"><p style="font-size:19px">1~3강에서 배운 <b>터미널 · 마크다운 · 깃허브</b>를 전부 씁니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 전체 흐름 -->
+<section class="slide">
+  <p class="kicker">전체 흐름</p>
+  <h2>다섯 단계면 <span class="hl-blue">완성</span>입니다</h2>
+  <div class="cards c3" style="grid-template-columns: repeat(5, 1fr); gap:12px">
+    <div class="card icon-card"><span class="emoji">✍️</span><h3 style="font-size:21px">① 원고 쓰기</h3><p style="font-size:17px">마크다운으로<br><span class="muted">2강</span></p></div>
+    <div class="card icon-card"><span class="emoji">🗄️</span><h3 style="font-size:21px">② 저장소</h3><p style="font-size:17px">GitHub에서 만들기<br><span class="muted">3강</span></p></div>
+    <div class="card icon-card"><span class="emoji">📥</span><h3 style="font-size:21px">③ 클론</h3><p style="font-size:17px">내 컴퓨터로 가져오기<br><span class="muted">1·3강</span></p></div>
+    <div class="card icon-card" style="border:2px solid var(--red)"><span class="emoji">🤖</span><h3 style="font-size:21px">④ AI에게 부탁</h3><p style="font-size:17px">말로 설명하기<br><span class="muted">오늘의 핵심</span></p></div>
+    <div class="card icon-card"><span class="emoji">🌐</span><h3 style="font-size:21px">⑤ 공개</h3><p style="font-size:17px">GitHub Pages<br><span class="muted">3강</span></p></div>
+  </div>
+  <p class="lead" style="font-size:23px">사람이 하는 일은 <b>글을 쓰고, 말로 부탁하고, 확인하는 것</b>뿐이에요.</p>
+</section>
+
+<!-- 주인공 -->
+<section class="slide">
+  <p class="kicker">오늘의 주인공 (가상 인물)</p>
+  <div class="two layout" style="grid-template-columns: 260px 1fr; gap:48px; align-items:center">
+    <div style="width:240px; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 30% 30%, #e9c9a0, #a4462f); display:grid; place-items:center; color:#fff; font-size:62px; font-weight:800; box-shadow:0 20px 40px rgba(120,60,30,.25)">해담</div>
+    <div class="stack" style="gap:16px">
+      <h2 style="font-size:46px">에세이스트 <span class="hl-blue">윤해담</span></h2>
+      <p class="lead" style="font-size:23px">15년간 공공도서관 사서로 일하다 작가가 됐어요. 독서 모임 '밑줄클럽'을 운영합니다.</p>
+      <table class="tbl small">
+        <tr><th>책</th><th style="width:16%">연도</th><th>상태</th></tr>
+        <tr class="em"><td><b>AI시대 독서와 글쓰기의 중요성</b></td><td>2026</td><td>신간 · 원고 전체 공개</td></tr>
+        <tr><td>느리게 읽는 사람</td><td>2023</td><td>소개만</td></tr>
+        <tr><td>밑줄의 쓸모</td><td>2021</td><td>소개만</td></tr>
+      </table>
+      <p class="muted" style="font-size:17px">인물과 책은 실습을 위해 만든 가상의 것입니다. 여러분은 자기 이야기로 해 보세요.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Part 1 -->
+<section class="slide section">
+  <div class="bg"></div>
+  <p class="part">Step 1</p>
+  <h2>마크다운으로 원고 쓰기</h2>
+  <p class="sub">편집기가 글쓰기를 얼마나 편하게 해 주는지 보기</p>
+</section>
+
+<!-- 원고 폴더 -->
+<section class="slide">
+  <p class="kicker">먼저 재료 준비</p>
+  <h2>원고는 <span class="hl-blue">폴더 하나</span>에 정리해 둡니다</h2>
+  <div class="two layout" style="grid-template-columns: 500px 1fr; gap:40px; align-items:center">
+    <div class="win">
+      <div class="bar"><i></i><i></i><i></i><span>📁 내 원고</span></div>
+      <div class="body filelist" style="gap:8px">
+        <div>📄 about.md <span class="muted" style="font-size:17px">← 작가 소개</span></div>
+        <div>📁 books</div>
+        <div style="margin-left:28px; font-size:19px">📁 ai-reading</div>
+        <div style="margin-left:56px; font-size:18px">📄 book.md <span class="muted" style="font-size:16px">← 원고</span></div>
+        <div style="margin-left:56px; font-size:18px">📁 img <span class="muted" style="font-size:16px">← 그림 (AI가 채움)</span></div>
+        <div style="margin-left:28px; font-size:19px">📁 slow-reader</div>
+        <div style="margin-left:28px; font-size:19px">📁 underline</div>
+      </div>
+    </div>
+    <div class="stack" style="gap:18px">
+      <ul class="bullets">
+        <li>책 한 권 = 폴더 하나 = <code>book.md</code> 하나</li>
+        <li>폴더와 파일 이름은 <b>영어 소문자와 <code>-</code></b>로 (인터넷 주소가 되기 때문)</li>
+        <li>2강의 옵시디언 보관함을 그대로 써도 좋아요</li>
+      </ul>
+      <div class="callout"><p style="font-size:21px">정리가 잘 된 폴더는 <b>AI도 한눈에</b> 이해합니다. 사람에게 좋은 정리가 AI에게도 좋아요.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 편집기 화면 -->
+<section class="slide" style="padding-top:44px; gap:14px">
+  <p class="kicker">마크다운 편집기 (VS Code · 옵시디언) 화면 구성</p>
+  <div class="pins">
+    <div class="editor" style="height:470px">
+      <div class="tb"><i></i><i></i><i></i><span class="tab">book.md</span></div>
+      <div class="side">
+        <div class="hd">탐색기</div>
+        <div>📄 about.md</div>
+        <div>📁 books</div>
+        <div>&nbsp;&nbsp;📁 ai-reading</div>
+        <div class="on">&nbsp;&nbsp;&nbsp;&nbsp;📄 book.md</div>
+        <div>&nbsp;&nbsp;📁 slow-reader</div>
+        <div>&nbsp;&nbsp;📁 underline</div>
+      </div>
+      <div class="main">
+        <pre><span class="l"><span class="h"># AI시대 독서와 글쓰기의 중요성</span></span><span class="l"></span><span class="l"><span class="q">&gt; 답을 주는 기계 앞에서, 질문하는 사람으로 살기</span></span><span class="l"></span><span class="l"><span class="h">## 들어가며: 답은 넘치는데 질문은 줄었다</span></span><span class="l"></span><span class="l cur">도서관에서 15년을 일하는 동안 가장 많이 들은 말은</span><span class="l">"이 책 어디 있어요?"였다. 그런데 몇 해 전부터</span><span class="l">그 질문이 눈에 띄게 줄었다. …</span><span class="l"></span><span class="l"><span class="h">## 1. 읽는 사람만 질문할 수 있다</span></span><span class="l"></span><span class="l">질문은 빈 머리에서 나오지 않는다. …</span></pre>
+      </div>
+      <div class="outline">
+        <div class="hd">개요</div>
+        <div class="o1">AI시대 독서와 글쓰기의…</div>
+        <div class="o2 on">들어가며</div>
+        <div class="o2">1. 읽는 사람만…</div>
+        <div class="o2">2. 요약은 AI가…</div>
+        <div class="o2">3. 쓰기는 생각을…</div>
+        <div class="o2">4. AI와 함께 쓰되…</div>
+        <div class="o2">5. 매일 한 쪽…</div>
+        <div class="o2">나가며</div>
+      </div>
+      <div class="status"><span>줄 7</span><span>3,564자</span><span>Markdown</span></div>
+    </div>
+    <span class="pin" style="left:20%; top:3.6%">1</span>
+    <span class="pin" style="left:55%; top:3.6%">2</span>
+    <span class="pin" style="left:93%; top:3.6%">3</span>
+    <span class="pin" style="left:62%; top:97%">4</span>
+  </div>
+  <div class="legend" style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px">
+    <div><span class="pin">1</span><span><b>탐색기</b>원고 폴더의 파일 목록</span></div>
+    <div><span class="pin">2</span><span><b>편집 창</b>마크다운 원문. 제목은 색으로 구분</span></div>
+    <div><span class="pin">3</span><span><b>개요</b>제목만 모은 목차. 누르면 이동</span></div>
+    <div><span class="pin">4</span><span><b>상태 표시줄</b>지금 줄, 글자 수</span></div>
+  </div>
+</section>
+
+<!-- 기능 1 개요 -->
+<section class="slide">
+  <p class="kicker">편의 기능 ① 개요(Outline)</p>
+  <h2>오른쪽 개요 = <span class="hl-blue">살아 있는 목차</span></h2>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:36px; align-items:start">
+    <div class="stack" style="gap:16px">
+      <div class="card"><h3>🧭 누르면 바로 이동</h3><p>200쪽짜리 원고에서도 "3장" 을 누르면 그 자리로 갑니다. 스크롤을 굴릴 필요가 없어요.</p></div>
+      <div class="card"><h3>🦴 글의 뼈대 점검</h3><p>제목만 모아 보면 <b>꼭지 순서가 어색한 곳, 빠진 장</b>이 한눈에 보여요. 퇴고할 때 가장 먼저 보는 곳입니다.</p></div>
+      <div class="card"><h3>✍️ 쓰는 즉시 반영</h3><p><code>##</code>을 붙여 새 제목을 쓰면 개요에도 바로 나타나요.</p></div>
+    </div>
+    <div class="stack" style="gap:12px">
+      <div class="card" style="padding:18px 24px">
+        <p class="muted" style="font-size:15px; font-weight:800">개요</p>
+        <div style="font-size:19px; line-height:2">
+          <div><b>AI시대 독서와 글쓰기의 중요성</b></div>
+          <div style="padding-left:22px">들어가며: 답은 넘치는데…</div>
+          <div style="padding-left:22px">1. 읽는 사람만 질문할 수 있다</div>
+          <div style="padding-left:22px; background:#dfe3fb; border-left:3px solid var(--red); font-weight:700">2. 요약은 AI가, 소화는 내가</div>
+          <div style="padding-left:22px">3. 쓰기는 생각을 확인하는 일</div>
+          <div style="padding-left:22px">4. AI와 함께 쓰되, 내 목소리로</div>
+          <div style="padding-left:22px">5. 매일 한 쪽 읽고, 한 문단 쓰기</div>
+          <div style="padding-left:22px">나가며: 질문하는 사람으로 남기</div>
+        </div>
+      </div>
+      <p class="muted" style="font-size:17px">VS Code: 왼쪽 아래 <b>OUTLINE</b> (오른쪽으로 옮길 수 있음) · 옵시디언: 오른쪽 사이드바 <b>개요</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 기능 2 찾기 -->
+<section class="slide" style="gap:16px">
+  <p class="kicker">편의 기능 ② 찾기와 바꾸기</p>
+  <h2>"인공지능"을 전부 <span class="hl-blue">"AI"로</span> 바꾸고 싶다면?</h2>
+  <div class="editor" style="grid-template-columns: 1fr; height:250px">
+    <div class="tb"><i></i><i></i><i></i><span class="tab">book.md</span></div>
+    <div class="main">
+      <div class="findbox"><span class="in">인공지능</span><span class="muted">3/23</span><span class="rp">AI</span><b style="color:var(--red)">모두 바꾸기</b></div>
+      <pre><span class="l">사람들은 이제 서가 사이를 헤매지 않는다. 휴대폰을 꺼내 <mark>인공지능</mark>에게 묻고,</span><span class="l">몇 초 만에 깔끔하게 정리된 답을 받는다. <mark class="now">인공지능</mark>은 무엇이든 대답한다.</span><span class="l">하지만 무엇을 물을지는 알려 주지 않는다. 요즘 나는 <mark>인공지능</mark>을 이렇게 쓴다.</span></pre>
+    </div>
+    <div class="status"><span>23개 찾음</span><span>Markdown</span></div>
+  </div>
+  <table class="tbl small">
+    <tr><th style="width:30%">하고 싶은 일</th><th style="width:22%">단축키 (윈도우)</th><th>설명</th></tr>
+    <tr><td>이 파일에서 찾기</td><td><span class="kbd">Ctrl</span> + <span class="kbd">F</span></td><td>찾은 곳이 노랗게 표시, Enter로 다음</td></tr>
+    <tr class="em"><td>찾아서 바꾸기</td><td><span class="kbd">Ctrl</span> + <span class="kbd">H</span></td><td>23곳을 <b>한 번에</b> 바꾸기</td></tr>
+    <tr><td>폴더 전체에서 찾기</td><td><span class="kbd">Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">F</span></td><td>책 세 권 전체에서 "밑줄"이 나온 곳 찾기</td></tr>
+  </table>
+  <p class="muted" style="font-size:17px">맥은 Ctrl 대신 ⌘ Cmd. VS Code와 옵시디언 모두 같은 단축키예요.</p>
+</section>
+
+<!-- 기능 3 수준 바꾸기와 옮기기 -->
+<section class="slide">
+  <p class="kicker">편의 기능 ③ 수준 바꾸기와 꼭지 옮기기</p>
+  <h2>원고의 <span class="hl-blue">구조</span>를 레고처럼 바꾸기</h2>
+  <div class="cards c3">
+    <div class="card">
+      <h3>🔢 수준 바꾸기</h3>
+      <p style="font-size:20px"><code>#</code> 하나를 더하거나 빼면 장 ↔ 절이 바뀌어요.</p>
+      <pre class="code" style="font-size:17px"><span class="k">##</span> 매일 한 쪽 읽기
+   ↓ # 하나 추가
+<span class="k">###</span> 매일 한 쪽 읽기</pre>
+      <p class="muted" style="font-size:16px">VS Code 확장 'Markdown All in One': <span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">]</span> / <span class="kbd">[</span></p>
+    </div>
+    <div class="card">
+      <h3>🗂️ 꼭지 접기</h3>
+      <p style="font-size:20px">제목 옆 <b>▾</b>를 누르면 그 꼭지 본문이 접혀요.</p>
+      <pre class="code" style="font-size:17px">▸ <span class="k">##</span> 1. 읽는 사람만 …
+▸ <span class="k">##</span> 2. 요약은 AI가 …
+▾ <span class="k">##</span> 3. 쓰기는 생각을 …
+  "머릿속으로는…"</pre>
+      <p class="muted" style="font-size:16px">긴 원고도 제목만 남겨서 한 화면에</p>
+    </div>
+    <div class="card" style="border:2px solid var(--red)">
+      <h3>↕️ 통째로 옮기기</h3>
+      <p style="font-size:20px">접은 꼭지에서 <span class="kbd">Alt</span>+<span class="kbd">↑</span>/<span class="kbd">↓</span>를 누르면 <b>꼭지 전체</b>가 위아래로 이동해요.</p>
+      <pre class="code" style="font-size:17px">▸ <span class="k">##</span> 2. 요약은 AI가 …
+▸ <span class="k">##</span> 1. 읽는 사람만 …  ↑</pre>
+      <p class="muted" style="font-size:16px">복사·잘라내기·붙여넣기 없이 순서 바꾸기</p>
+    </div>
+  </div>
+  <div class="callout"><p style="font-size:21px">한글 문서에서 몇 쪽을 잘라 옮기다 서식이 깨졌던 경험, 이제 없습니다. <b>글자와 기호뿐</b>이라 무엇을 옮겨도 그대로예요.</p></div>
+</section>
+
+<!-- 기능 4 미리보기 -->
+<section class="slide">
+  <p class="kicker">편의 기능 ④ 미리보기와 글자 수</p>
+  <h2>쓰면서 바로 <span class="hl-blue">완성된 모습</span>을 봅니다</h2>
+  <div class="md-pair" style="grid-template-columns: 1fr 64px 1fr">
+    <div>
+      <span class="lbl2">왼쪽: 원문</span>
+      <pre class="code" style="font-size:18px"><span class="k">##</span> 3. 쓰기는 생각을 확인하는 일
+
+<span class="k">![</span>편지를 쓰는 여인<span class="k">](</span>img/ch3-writing.jpg<span class="k">)</span>
+<span class="k">*</span>테르보르흐, 「편지를 쓰는 여인」<span class="k">*</span>
+
+생각은 머릿속에 있을 때 언제나
+그럴듯하다. 쓰다가 막히는 바로
+그 지점이 <span class="k">**</span>내가 아직 모르는 곳<span class="k">**</span>이다.</pre>
+    </div>
+    <div class="mid">→</div>
+    <div>
+      <span class="lbl2">오른쪽: 미리보기</span>
+      <div class="md-view" style="font-size:18px">
+        <h2 style="font-size:24px">3. 쓰기는 생각을 확인하는 일</h2>
+        <img src="example-site/books/ai-reading/img/ch3-writing.jpg" alt="편지를 쓰는 여인" style="width:100%; height:150px; object-fit:cover; border-radius:8px">
+        <p style="font-size:14px; color:var(--ink-soft); margin-top:4px"><i>테르보르흐, 「편지를 쓰는 여인」</i></p>
+        <p>생각은 머릿속에 있을 때 언제나 그럴듯하다. 쓰다가 막히는 바로 그 지점이 <b>내가 아직 모르는 곳</b>이다.</p>
+      </div>
+    </div>
+  </div>
+  <p class="muted" style="font-size:18px">VS Code: <span class="kbd">Ctrl</span>+<span class="kbd">K</span> 다음 <span class="kbd">V</span> (나란히 미리보기) · 옵시디언: <span class="kbd">Ctrl</span>+<span class="kbd">E</span> (읽기 모드) · 글자 수·단어 수는 아래 상태 표시줄에</p>
+</section>
+
+<!-- 단축키 요약 -->
+<section class="slide">
+  <p class="kicker">한 장 요약</p>
+  <h2>글 쓰는 사람을 위한 <span class="hl-blue">단축키</span></h2>
+  <table class="tbl">
+    <tr><th style="width:34%">하고 싶은 일</th><th style="width:33%">VS Code</th><th>옵시디언</th></tr>
+    <tr><td>찾기 / 바꾸기</td><td><code>Ctrl+F</code> / <code>Ctrl+H</code></td><td><code>Ctrl+F</code> / <code>Ctrl+H</code></td></tr>
+    <tr><td>폴더 전체에서 찾기</td><td><code>Ctrl+Shift+F</code></td><td><code>Ctrl+Shift+F</code></td></tr>
+    <tr><td>파일 빨리 열기</td><td><code>Ctrl+P</code></td><td><code>Ctrl+O</code></td></tr>
+    <tr><td>미리보기</td><td><code>Ctrl+K</code> → <code>V</code></td><td><code>Ctrl+E</code></td></tr>
+    <tr><td>굵게 / 기울임</td><td><code>Ctrl+B</code> / <code>Ctrl+I</code> (확장)</td><td><code>Ctrl+B</code> / <code>Ctrl+I</code></td></tr>
+    <tr><td>줄·꼭지 위아래로 옮기기</td><td><code>Alt+↑</code> / <code>Alt+↓</code></td><td>개요 패널에서 끌어 옮기기</td></tr>
+    <tr><td>모든 명령 검색</td><td><code>Ctrl+Shift+P</code></td><td><code>Ctrl+P</code></td></tr>
+  </table>
+  <p class="muted" style="font-size:17px">맥은 Ctrl 대신 ⌘ Cmd, Alt 대신 ⌥ Option. 버전에 따라 조금 다를 수 있으니 "모든 명령 검색"에서 이름으로 찾아도 돼요.</p>
+</section>
+
+<!-- Part 2 -->
+<section class="slide section">
+  <div class="bg"></div>
+  <p class="part">Step 2 · 3</p>
+  <h2>저장소 만들고 클론하기</h2>
+  <p class="sub">웹사이트가 살 집을 짓고, 내 컴퓨터로 열쇠 가져오기</p>
+</section>
+
+<!-- 새 저장소 -->
+<section class="slide">
+  <p class="kicker">GitHub에서 새 저장소 만들기</p>
+  <div class="two layout" style="grid-template-columns: 1fr 470px; gap:36px; align-items:center; height:100%">
+    <div class="stack" style="gap:16px">
+      <h2 style="font-size:40px">이름은 <code style="font-size:.85em">author-site</code>,<br>공개 범위는 <span class="hl-blue">Public</span></h2>
+      <div class="rows tight">
+        <div class="row"><span class="num">1</span><div><b>오른쪽 위 + → New repository</b><span>3강에서 해 본 그대로</span></div></div>
+        <div class="row"><span class="num">2</span><div><b>Public 선택</b><span>무료 계정은 공개 저장소만 GitHub Pages로 웹사이트를 열 수 있어요</span></div></div>
+        <div class="row"><span class="num">3</span><div><b>Add a README 체크 → Create</b><span>README는 나중에 AI가 채워 줘요</span></div></div>
+      </div>
+      <p class="muted" style="font-size:17px">Public이라도 남이 마음대로 고칠 수는 없어요. <b>볼 수만</b> 있습니다.</p>
+    </div>
+    <div class="win">
+      <div class="bar"><i></i><i></i><i></i><span>Create a new repository</span></div>
+      <div class="body" style="display:flex; flex-direction:column; gap:12px; font-size:18px">
+        <div><b>Repository name</b><div style="border:1px solid var(--line); border-radius:8px; padding:6px 10px; margin-top:4px; font-family:var(--mono)">author-site</div></div>
+        <div><b>Description</b><div style="border:1px solid var(--line); border-radius:8px; padding:6px 10px; margin-top:4px">작가 윤해담의 홈페이지</div></div>
+        <div>◉ <b>Public</b> &nbsp; ○ Private</div>
+        <div>☑ Add a README file</div>
+        <div style="align-self:flex-start; background:#1f883d; color:#fff; font-weight:700; border-radius:8px; padding:8px 16px">Create repository</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 클론이란 -->
+<section class="slide">
+  <p class="kicker">클론(clone)이란?</p>
+  <h2>인터넷의 저장소를 <span class="hl-blue">내 컴퓨터로 복제</span>하는 것</h2>
+  <div class="vs">
+    <div class="card"><h3>💾 그냥 다운로드</h3><p>파일만 받아 와요. 고친 내용을 <b>다시 올릴 길이 없어요</b>.</p></div>
+    <div class="mid">VS</div>
+    <div class="card" style="border:2px solid var(--red)"><h3>🔗 클론</h3><p>파일과 기록을 통째로 가져오고, GitHub와 <b>연결된 상태</b>로 남아요. 고친 뒤 <code>push</code>하면 그대로 올라가요.</p></div>
+  </div>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:28px; align-items:center">
+    <div class="win">
+      <div class="bar"><i></i><i></i><i></i><span>github.com/내아이디/author-site</span></div>
+      <div class="body" style="display:flex; flex-direction:column; gap:10px; font-size:17px">
+        <div style="align-self:flex-end; background:#1f883d; color:#fff; font-weight:700; border-radius:8px; padding:6px 14px">&lt;&gt; Code ▾</div>
+        <div style="border:1px solid var(--line); border-radius:8px; padding:10px 12px"><b>HTTPS</b><div style="font-family:var(--mono); font-size:15px; margin-top:4px; background:#f3f4f8; padding:4px 8px; border-radius:6px">https://github.com/내아이디/author-site.git 📋</div></div>
+      </div>
+    </div>
+    <p class="lead" style="font-size:22px">저장소 화면의 초록색 <b>Code</b> 버튼 → <b>HTTPS</b> 주소 옆 📋를 눌러 <span class="mark">주소를 복사</span>해 두세요.</p>
+  </div>
+</section>
+
+<!-- 터미널 클론 -->
+<section class="slide">
+  <p class="kicker">터미널에서 클론하기</p>
+  <div class="term">
+    <div class="bar"><i></i><i></i><i></i><span>터미널</span></div>
+    <pre style="font-size:20px"><span class="p">~ $</span> <span class="cmd">cd Documents</span>                <span class="c"># 문서 폴더로 이동</span>
+<span class="p">~/Documents $</span> <span class="cmd">git clone https://github.com/내아이디/author-site.git</span>
+<span class="o">Cloning into 'author-site'...
+Receiving objects: 100% (3/3), done.</span>
+<span class="p">~/Documents $</span> <span class="cmd">cd author-site</span>             <span class="c"># 받아 온 폴더로 들어가기</span>
+<span class="p">~/Documents/author-site $</span> <span class="cmd">ls</span>
+<span class="o">README.md</span>
+<span class="c"># 이제 '내 원고' 폴더의 about.md 와 books 폴더를 여기로 복사해 넣으세요 (탐색기에서 끌어다 놓아도 OK)</span>
+<span class="p">~/Documents/author-site $</span> <span class="cmd">ls</span>
+<span class="o">README.md  about.md  books</span></pre>
+  </div>
+  <p class="lead" style="font-size:22px">1강에서 배운 <code>cd</code>와 <code>ls</code>, 3강에서 배운 <code>git clone</code>. 배운 것만으로 충분해요.</p>
+</section>
+
+<!-- Part 3 -->
+<section class="slide section">
+  <div class="bg"></div>
+  <p class="part">Step 4</p>
+  <h2>AI에게 부탁하기</h2>
+  <p class="sub">바이브 코딩: 말로 설명하고, 보고, 고쳐 달라고 하기</p>
+</section>
+
+<!-- AI 켜기 -->
+<section class="slide">
+  <p class="kicker">AI 부르기</p>
+  <h2>저장소 폴더 <span class="hl-blue">안에서</span> AI를 켭니다</h2>
+  <div class="term">
+    <div class="bar"><i></i><i></i><i></i><span>~/Documents/author-site</span></div>
+    <pre style="font-size:21px"><span class="p">~/Documents/author-site $</span> <span class="cmd">claude</span>      <span class="c"># 또는 codex, gemini</span>
+
+<span class="ai">● 안녕하세요! 이 폴더(author-site)에서 무엇을 도와드릴까요?</span></pre>
+  </div>
+  <div class="cards c3">
+    <div class="card"><h3>📍 위치가 중요해요</h3><p style="font-size:20px">AI는 <b>켠 폴더 안에서</b> 일해요. 꼭 저장소 폴더에서 켜세요.</p></div>
+    <div class="card"><h3>🔑 처음 한 번은 로그인</h3><p style="font-size:20px">처음 켜면 브라우저가 열리고 계정 로그인을 안내해요.</p></div>
+    <div class="card"><h3>🙋 허락을 묻습니다</h3><p style="font-size:20px">파일을 만들거나 명령을 실행하기 전에 물어봐요. 읽고 눌러 주세요.</p></div>
+  </div>
+</section>
+
+<!-- 첫 부탁 -->
+<section class="slide" style="gap:18px">
+  <p class="kicker">첫 번째 부탁 · 무엇을 원하는지</p>
+  <div class="prompt-card">나는 에세이를 쓰는 작가 윤해담이야. 내 웹사이트를 만들고, 여기에 내가 쓴 책들을 올리고 싶어. 이 폴더에 내 소개(about.md)와 책 원고(books 폴더)가 있어.</div>
+  <div class="term">
+    <div class="bar"><i></i><i></i><i></i><span>claude (예시 화면을 재구성)</span></div>
+    <pre style="font-size:18px"><span class="ai">● 폴더를 살펴볼게요.</span>  <span class="o">about.md 1개, 책 3권 (원고 전체 1권, 소개만 2권)</span>
+
+<span class="ai">● 이렇게 만들면 어떨까요?</span>
+  <span class="o">1. 첫 화면: 큰 사진, 작가 소개, 신간, 책 목록, 연락처</span>
+  <span class="o">2. 책 읽기 화면: 원고를 그대로 보여 주고 오른쪽에 목차</span>
+  <span class="o">3. 원고(.md)를 고치면 사이트에 자동 반영되도록</span>
+
+<span class="ai">● 두 가지만 여쭤볼게요.</span>
+  <span class="y">원하는 분위기가 있나요? 연락받을 이메일 주소는요?</span></pre>
+  </div>
+  <p class="lead" style="font-size:21px">AI가 <b>계획을 먼저 보여 주고 질문</b>을 해요. 대답하면서 내 사이트의 모습이 정해집니다.</p>
+</section>
+
+<!-- 두 번째 부탁 -->
+<section class="slide" style="gap:18px">
+  <p class="kicker">두 번째 부탁 · 구체적으로</p>
+  <div class="prompt-card">분위기는 오래된 도서관처럼 차분하고 따뜻하게 해 줘. 이메일은 hello@haedam.example 이야.<br>내 정보와 책을 올리고, <b>꼭지마다 어울리는 그림</b>을 찾아서 넣어 줘. 저작권 걱정 없는 그림으로, 출처도 꼭 적어 줘.</div>
+  <div class="cards c3">
+    <div class="card"><h3>🎨 분위기</h3><p style="font-size:20px">"차분하고 따뜻하게"처럼 <b>느낌을 말로</b> 설명하면 돼요. 색 이름을 몰라도 괜찮아요.</p></div>
+    <div class="card"><h3>🖼️ 재료</h3><p style="font-size:20px">AI가 원고를 읽고 꼭지 내용에 맞는 그림을 <b>스스로 찾아</b> 와요.</p></div>
+    <div class="card"><h3>⚖️ 조건</h3><p style="font-size:20px">"저작권 걱정 없는", "출처 표기"처럼 <b>지켜야 할 것</b>을 꼭 말해 주세요.</p></div>
+  </div>
+</section>
+
+<!-- AI가 일하는 모습 -->
+<section class="slide" style="padding-top:48px">
+  <p class="kicker">AI가 일하는 모습</p>
+  <div class="term" style="flex:1">
+    <div class="bar"><i></i><i></i><i></i><span>claude (예시 화면을 재구성)</span></div>
+    <pre style="font-size:17px; line-height:1.55"><span class="ai">● 원고의 7개 꼭지를 읽고 어울리는 그림을 찾았어요. 모두 퍼블릭 도메인 명화예요.</span>
+  <span class="o">들어가며 → 페르메이르 「천문학자」        (질문을 품은 사람)</span>
+  <span class="o">1장      → 프라고나르 「책 읽는 소녀」</span>
+  <span class="o">2장      → 슈피츠베크 「책벌레」            (책은 많아도 읽는 건 나)</span>
+  <span class="o">3장      → 테르보르흐 「편지를 쓰는 여인」   …</span>
+
+<span class="ai">● 파일을 만들어도 될까요?</span>
+  <span class="b">+ index.html</span>         <span class="c">첫 화면</span>
+  <span class="b">+ book.html</span>          <span class="c">책 읽기 화면 (목차 · 본문 찾기)</span>
+  <span class="b">+ assets/style.css</span>   <span class="c">디자인</span>
+  <span class="b">+ assets/site.js</span>     <span class="c">원고(.md)를 읽어 화면에 그리는 코드</span>
+  <span class="b">+ content/books.json</span> <span class="c">책 목록</span>
+  <span class="b">+ books/ai-reading/img/</span> <span class="c">그림 7장</span>
+  <span class="p">❯ 1. 예</span>   2. 아니요, 다르게 해줘
+
+<span class="ai">● 완료했어요. 원고에는 그림 줄만 추가했고 본문은 건드리지 않았어요.</span></pre>
+  </div>
+</section>
+
+<!-- 미리 보기 -->
+<section class="slide">
+  <p class="kicker">올리기 전에 내 컴퓨터에서 확인</p>
+  <h2>"<span class="hl-blue">미리 보여 줘</span>" 한마디면 됩니다</h2>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:28px; align-items:center">
+    <div class="stack" style="gap:16px">
+      <div class="prompt-card" style="font-size:21px">내 컴퓨터에서 미리 볼 수 있게 해 줘</div>
+      <div class="term"><pre style="font-size:17px"><span class="ai">● 미리보기 서버를 켰어요.</span>
+  <span class="y">http://localhost:8000</span> <span class="o">을 브라우저에서 열어 보세요.</span></pre></div>
+      <p class="muted" style="font-size:18px"><code>localhost</code> = "내 컴퓨터"라는 뜻. 나만 볼 수 있는 시사회예요.</p>
+    </div>
+    <div class="shot-frame">
+      <div class="addr">🔒 <span>localhost:8000</span></div>
+      <img src="img/site-new.jpg" alt="내 컴퓨터에서 미리 본 작가 홈페이지">
+    </div>
+  </div>
+</section>
+
+<!-- 고쳐 달라고 하기 -->
+<section class="slide">
+  <p class="kicker">마음에 안 드는 곳은 말로 고치기</p>
+  <h2>한 번에 완벽할 필요 없어요. <span class="hl-blue">대화하며 다듬습니다</span></h2>
+  <div class="rows">
+    <div class="row"><span class="num">1</span><div><b>"책 표지의 동그란 장식이 제목을 가려. 아래쪽으로 옮겨 줘"</b><span>보이는 그대로 말하면 AI가 어디를 고칠지 찾아요.</span></div></div>
+    <div class="row"><span class="num">2</span><div><b>"책을 읽다가 단어를 찾을 수 있게 검색창을 넣어 줘"</b><span>편집기에서 쓰던 Ctrl+F를 내 사이트에도!</span></div></div>
+    <div class="row"><span class="num">3</span><div><b>"휴대폰에서 보면 목차가 본문을 가려. 버튼으로 열고 닫게 해 줘"</b><span>휴대폰 화면도 꼭 확인하세요. 방문자 대부분은 휴대폰으로 봐요.</span></div></div>
+  </div>
+  <div class="callout"><p style="font-size:21px">실제로 이 예시 사이트도 이 세 가지를 고쳐 가며 완성했어요. <b>보고 → 말하고 → 다시 보기</b>를 반복하면 됩니다.</p></div>
+</section>
+
+<!-- 공개 -->
+<section class="slide">
+  <p class="kicker">Step 5 · 세상에 공개하기</p>
+  <h2>커밋 · 푸시하고 <span class="hl-blue">GitHub Pages</span>를 켜면 끝</h2>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:28px; align-items:start">
+    <div class="stack" style="gap:14px">
+      <div class="prompt-card" style="font-size:20px">좋아, 마음에 들어. 커밋하고 푸시해 줘. 그리고 GitHub Pages도 켜 줘.</div>
+      <div class="term"><pre style="font-size:16px"><span class="ai">● 커밋했어요:</span> <span class="o">"작가 홈페이지 첫 버전"</span>
+<span class="ai">● GitHub에 올렸어요.</span>
+<span class="ai">● GitHub Pages를 켰어요. 1~2분 뒤 열려요:</span>
+  <span class="y">https://내아이디.github.io/author-site/</span></pre></div>
+    </div>
+    <div class="card">
+      <h3>🖱️ 직접 켜려면</h3>
+      <ol style="font-size:20px; line-height:1.8; margin:0; padding-left:26px">
+        <li>저장소의 <b>Settings</b></li>
+        <li>왼쪽 메뉴 <b>Pages</b></li>
+        <li>Branch를 <b>main</b>, 폴더는 <b>/ (root)</b></li>
+        <li><b>Save</b> → 1~2분 뒤 주소가 나타남</li>
+      </ol>
+      <p class="muted" style="font-size:17px">자세한 내용은 3강 'GitHub Pages' 장을 보세요.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Part 4 -->
+<section class="slide section">
+  <div class="bg"></div>
+  <p class="part">완성</p>
+  <h2>윤해담 작가 홈페이지</h2>
+  <p class="sub">실제로 만들어서 공개한 결과를 둘러봅니다</p>
+</section>
+
+<!-- 완성 1 -->
+<section class="slide" style="padding-top:48px">
+  <p class="kicker">완성 ① 첫 화면</p>
+  <div class="two layout" style="grid-template-columns: 780px 1fr; gap:32px; align-items:center">
+    <div class="shot-frame"><div class="addr">🔒 <span>내아이디.github.io/author-site</span></div><img src="img/site-home.jpg" alt="첫 화면"></div>
+    <ul class="bullets" style="font-size:21px">
+      <li>오래된 도서관 사진으로 <b>'차분하고 따뜻하게'</b></li>
+      <li>한 줄 소개와 버튼 두 개</li>
+      <li>사진 출처를 오른쪽 아래에</li>
+      <li>위쪽 메뉴로 소개·책·연락 이동</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 완성 2 -->
+<section class="slide" style="padding-top:48px">
+  <p class="kicker">완성 ② 신간과 책 목록</p>
+  <div class="two layout" style="grid-template-columns: 1fr 1fr; gap:24px; align-items:start">
+    <div class="stack" style="gap:8px"><div class="shot-frame"><img src="img/site-new.jpg" alt="신간 소개"></div><p class="muted" style="font-size:17px">신간 표지와 소개, '전문 읽기' 버튼</p></div>
+    <div class="stack" style="gap:8px"><div class="shot-frame"><img src="img/site-books.jpg" alt="책 목록"></div><p class="muted" style="font-size:17px">책 세 권. 표지는 그림 파일 없이 색과 글자로 만들었어요</p></div>
+  </div>
+  <div class="callout"><p style="font-size:20px">새 책을 내면? <code>books</code> 폴더에 원고를 넣고 AI에게 "새 책 올려 줘" 하면 목록에 추가돼요.</p></div>
+</section>
+
+<!-- 완성 3 -->
+<section class="slide" style="padding-top:48px">
+  <p class="kicker">완성 ③ 책 읽기 화면</p>
+  <div class="two layout" style="grid-template-columns: 780px 1fr; gap:32px; align-items:center">
+    <div class="shot-frame"><img src="img/site-book.jpg" alt="책 읽기 화면"></div>
+    <div class="stack" style="gap:14px">
+      <ul class="bullets" style="font-size:21px">
+        <li>오른쪽 <b>목차</b>는 원고의 <code>##</code> 제목으로 자동 생성</li>
+        <li>읽는 위치에 맞춰 목차가 따라 표시</li>
+        <li>맨 위 주황색 선 = 읽은 만큼</li>
+      </ul>
+      <div class="callout"><p style="font-size:19px">편집기의 <b>개요</b>가 그대로 독자의 <b>목차</b>가 됐어요.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 완성 4 -->
+<section class="slide" style="padding-top:48px">
+  <p class="kicker">완성 ④ 본문 찾기와 그림</p>
+  <div class="two layout" style="grid-template-columns: 780px 1fr; gap:32px; align-items:center">
+    <div class="shot-frame"><img src="img/site-search.jpg" alt="본문 찾기 화면"></div>
+    <div class="stack" style="gap:14px">
+      <ul class="bullets" style="font-size:21px">
+        <li>"질문"을 찾으면 <b>14곳</b>이 노랗게</li>
+        <li>Enter로 다음 곳으로 이동</li>
+        <li>꼭지마다 명화와 설명</li>
+      </ul>
+      <div class="callout"><p style="font-size:19px">원고의 <code>![그림](주소)</code>와 그 아래 <code>*설명*</code>이 그림과 캡션이 됐어요.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 완성 5 -->
+<section class="slide" style="padding-top:48px">
+  <p class="kicker">완성 ⑤ 휴대폰 화면</p>
+  <div class="two layout" style="grid-template-columns: 760px 1fr; gap:32px; align-items:center">
+    <div class="shot-frame"><img src="img/site-mobile.jpg" alt="휴대폰에서 본 화면 세 장"></div>
+    <ul class="bullets" style="font-size:21px">
+      <li>화면 폭에 맞춰 자동으로 배치</li>
+      <li>목차는 <b>버튼으로</b> 열고 닫기</li>
+      <li>독서 모임 단톡방에 주소만 보내면 끝</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 직접 가 보기 -->
+<section class="slide center">
+  <p class="kicker" style="align-self:center">직접 둘러보기</p>
+  <p class="big-statement" style="font-size:44px">이 강의와 함께 실제로 공개한<br><span class="hl-blue">윤해담 작가 홈페이지</span></p>
+  <a class="linkcard" href="example-site/index.html" target="_blank" style="align-self:center; min-width:640px; text-align:left">
+    <b>윤해담 · 읽고, 밑줄 긋고, 씁니다</b>
+    <span>첫 화면 · 신간 전문 · 책 목록 · 본문 찾기 (가상 인물 예시)</span>
+    <small>jay-nuclear-phd.github.io/jays-lectures/ai_basics/lecture4/example-site/</small>
+  </a>
+  <p class="lead muted" style="font-size:20px">사이트 폴더에는 AI가 써 준 <code>README.md</code>도 들어 있어요. 새 책 올리는 법이 적혀 있습니다.</p>
+</section>
+
+<!-- 좋은 부탁의 비결 -->
+<section class="slide">
+  <p class="kicker">돌아보기</p>
+  <h2>AI에게 <span class="hl-blue">좋은 부탁</span>을 하는 다섯 가지 비결</h2>
+  <div class="rows tight">
+    <div class="row"><span class="num">1</span><div><b>나는 누구인지</b><span>"나는 에세이를 쓰는 작가야" → AI가 맥락을 이해해요</span></div></div>
+    <div class="row"><span class="num">2</span><div><b>무엇을 원하는지</b><span>"웹사이트를 만들고 책을 올리고 싶어" → 목표</span></div></div>
+    <div class="row"><span class="num">3</span><div><b>재료가 어디 있는지</b><span>"about.md와 books 폴더에 있어" → AI가 직접 읽어요</span></div></div>
+    <div class="row"><span class="num">4</span><div><b>지켜야 할 것</b><span>"저작권 걱정 없는 그림, 출처 표기" → 조건</span></div></div>
+    <div class="row"><span class="num">5</span><div><b>한 번에 하나씩, 보고 고치기</b><span>미리 보고 → 고칠 점 말하고 → 마음에 들면 커밋</span></div></div>
+  </div>
+</section>
+
+<!-- 주의 -->
+<section class="slide">
+  <p class="kicker">꼭 지켜 주세요</p>
+  <h2>공개하기 전 <span class="hl-blue">체크리스트</span></h2>
+  <div class="cards c3">
+    <div class="card"><span class="emoji">⚖️</span><h3>그림 저작권</h3><p style="font-size:20px">인터넷 그림을 아무거나 쓰면 안 돼요. <b>퍼블릭 도메인이나 CC 라이선스</b>인지, 출처를 적었는지 AI에게 다시 확인하세요.</p></div>
+    <div class="card"><span class="emoji">🔒</span><h3>개인정보</h3><p style="font-size:20px">Public 저장소는 <b>전 세계가</b> 봐요. 집 주소, 전화번호, 개인 메모는 넣지 마세요.</p></div>
+    <div class="card"><span class="emoji">👀</span><h3>마지막 검토는 사람이</h3><p style="font-size:20px">AI가 내 원고를 <b>마음대로 고치지 않았는지</b>, 링크가 다 열리는지 직접 눌러 보세요.</p></div>
+  </div>
+</section>
+
+<!-- 과제 -->
+<section class="slide">
+  <p class="kicker">이번 주 해 볼 것</p>
+  <h2>나만의 <span class="hl-blue">홈페이지</span> 공개하기</h2>
+  <div class="rows">
+    <div class="row"><span class="num">1</span><div><b>나를 소개하는 about.md 쓰기</b><span>제목, 한 줄 소개, 내가 하는 일 목록, 좋아하는 문장 인용</span></div></div>
+    <div class="row"><span class="num">2</span><div><b>올리고 싶은 글 한 편을 마크다운으로</b><span>책이 아니어도 OK. 블로그 글, 여행기, 독서노트 무엇이든. 꼭지는 <code>##</code>로</span></div></div>
+    <div class="row"><span class="num">3</span><div><b>author-site 저장소 만들고 클론하기</b><span>Public으로 만들고 터미널에서 <code>git clone</code></span></div></div>
+    <div class="row"><span class="num">4</span><div><b>AI에게 부탁하고 공개하기</b><span>오늘 배운 다섯 가지 비결로 부탁 → 미리 보기 → 고치기 → 커밋·푸시 → Pages 켜기. 주소를 모임 방에 공유!</span></div></div>
+  </div>
+</section>
+
+<!-- 출처 -->
+<section class="slide">
+  <p class="kicker">이미지 출처</p>
+  <ul class="bullets" style="font-size:17px; gap:6px">
+    <li>완성 화면: 이 강의를 위해 만든 예시 사이트(jay-nuclear-phd.github.io/jays-lectures/ai_basics/lecture4/example-site/) 캡처</li>
+    <li>예시 사이트 첫 화면 사진: Diliff, Trinity College Dublin Long Room, CC BY-SA 4.0, Wikimedia Commons</li>
+    <li>예시 사이트 본문 그림: 페르메이르 「천문학자」·「열린 창가에서 편지를 읽는 여인」, 프라고나르 「책 읽는 소녀」, 슈피츠베크 「책벌레」, 테르보르흐 「편지를 쓰는 여인」, 반 고흐 「성경이 있는 정물」, 르누아르 「삽화 잡지를 읽는 젊은 여인」 (모두 퍼블릭 도메인, Wikimedia Commons)</li>
+    <li>편집기·터미널·대화 화면은 설명을 위해 직접 재구성한 예시입니다.</li>
+    <li>윤해담과 그의 책들은 강의를 위해 만든 가상의 인물과 작품입니다.</li>
+  </ul>
+</section>
+
+</div></div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>
